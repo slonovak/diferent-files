@@ -5,6 +5,7 @@
 #define LEFT A1
 
 long long t = 0;
+int delta = 100;
 short int R, L, now = 0, past = 0, v = 1;
 char f = 0;
 
@@ -35,18 +36,37 @@ void loop() {
     v = -1;
   }
   
-  if(millis() - t >= 50)
+  if(millis() - t >= delta)
   {
     switch (f)
     {
     case 1:
+      if(now == L)
+      {
+        f = 0;
+        v = -v;
+      }
       break;
     
     case 2:
+    if(now == R)
+      {
+        f = 0;
+        v = -v;
+      }
       break;
 
     default:
+      if(now == L || now == R)
+      {
+        v = -v;
+      }
       break;
     }
+    digitalWrite(PIN past, LOW);
+    digitalWrite(PIN now, HIGH);
+    past = now;
+    now += v;
+    t = millis();
   }
 }
