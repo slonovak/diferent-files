@@ -14,6 +14,15 @@ void setup() {
     pinMode(PIN i, OUTPUT);
   pinMode(RIGHT, INPUT);
   pinMode(LEFT, INPUT);
+
+  R = analogRead(RIGHT) / 102.4;
+  L = analogRead(LEFT) / 102.4;
+  if(R > L)
+  {
+    v = -v;
+  }
+  now = R;
+  past = R;
 }
 
 void loop() {
@@ -43,7 +52,7 @@ void loop() {
     case 1:
       if(now == L)
       {
-        f = 0;
+        f = 3;
         v = -v;
       }
       break;
@@ -51,16 +60,20 @@ void loop() {
     case 2:
     if(now == R)
       {
-        f = 0;
+        f = 3;
+        v = -v;
+      }
+      break;
+
+    case 3:
+    if(now == L || now == R)
+      {
         v = -v;
       }
       break;
 
     default:
-      if(now == L || now == R)
-      {
-        v = -v;
-      }
+      f = 3;
       break;
     }
     digitalWrite(PIN past, LOW);
